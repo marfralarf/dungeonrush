@@ -1,4 +1,4 @@
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.Console;
@@ -110,7 +110,6 @@ public class App {
         int spawn = (int) ((Math.random() * 4));
         int floor = level[2 * i] * 4;
         int selectEnemy = spawn + floor;
-        System.out.println(spawn + " " + floor + " " + selectEnemy);
         Enemy gauntlet = new Enemy(enemyName[selectEnemy], enemyAc[selectEnemy], enemyHp[selectEnemy]);
         return gauntlet;
     }
@@ -172,7 +171,6 @@ public class App {
     }
 
     public static void main(String[] args) {
-
         int difficulty = difficulty();
 
         Item[] initiative = new Item[difficulty];
