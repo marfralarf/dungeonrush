@@ -1,0 +1,80 @@
+package main;
+
+import java.util.Scanner;
+
+public class Item {
+String name;
+String user;
+Integer damage;
+Integer bonus;
+Integer special;
+
+public static String[] itemName = { "Dagger", "Broadsword", "Glaive", "Halberd", "Sceptor", "Wand" };
+public static String[] itemUser = { "Rogue", "Barbarian", "Soldier", "Dragoon", "Priest", "Wizard" };
+public static Integer[] itemDamage = { 8, 10, 15, 18, 6, 4 };
+public static Integer[] itemBonus = { 8, 10, 7, 6, 4, 3 };
+public static Integer[] itemSpecial = { 4, 2, 2, 2, 2, 3 };
+
+
+public Item(String initName, String initType, Integer initDamage, Integer initBonus, Integer initSpecial) {
+    name = initName;
+    user = initType;
+    damage = initDamage;
+    bonus = initBonus;
+    special = initSpecial;
+}
+public void buildInitiative(int difficulty)
+{
+	Item[] initiative = new Item[difficulty];
+	
+	for (int i = 0; i < difficulty; i++) {
+        initiative[i] = chooseItem(i);
+        System.out.println("\n Your party includes the:");
+        for (int k = 0; k <= i; k++) {
+            System.out.println((k + 1) + ". " + initiative[k].user);
+        }
+        System.out.println();
+    }
+}
+public int[] attack() {
+    int rollAttack = 0;
+    int rollDamage = 0;
+    int rollOutcome = (int) (Math.random() * 20 + 1);
+
+    rollAttack = rollOutcome + bonus;
+    rollDamage = (int) (Math.random() * 6 + 1 + damage);
+
+    int[] results = { rollAttack, rollDamage };
+
+    return results;
+}
+public static Item makeItem(int i) {
+    Item member = new Item(itemName[i], itemUser[i], itemDamage[i],
+            itemBonus[i], itemSpecial[i]);
+    return member;
+}
+
+public static Item chooseItem(int i) {
+
+    String[] order = { "first", "second", "third", "fourth", "fifth", "sixth" };
+
+    System.out.println("Who will be " + order[i] + " in your party to vanquish the evils" +
+            "that lurk in the dungeon below? \n" +
+            "Enter the number next to your choice \n" +
+            "1. The Rogue \n" +
+            "2. The Barbarian \n" +
+            "3. The Soldier \n" +
+            "4. The Dragoon \n" +
+            "5. The Priest \n" +
+            "6. or The Wizard? \n");
+
+    int choiceNum;
+
+    Scanner choice = new Scanner(System.in);
+    choiceNum = choice.nextInt();
+
+    Item member = makeItem(choiceNum);
+    return member;
+}
+}
+
