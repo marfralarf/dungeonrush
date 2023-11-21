@@ -47,12 +47,19 @@ class Item {
 public class App {
     public static Console console = System.console();
 
+    public static String[] itemName = { "Dagger", "Broadsword", "Glaive", "Halberd", "Sceptor", "Wand" };
+    public static String[] itemUser = { "Rogue", "Barbarian", "Soldier", "Dragoon", "Priest", "Wizard" };
+    public static Integer[] itemDamage = { 8, 10, 15, 18, 6, 4 };
+    public static Integer[] itemBonus = { 8, 10, 7, 6, 4, 3 };
+    public static Integer[] special = { 4, 2, 2, 2, 2, 3 };
+
+    public static Item makeItem(int i) {
+        Item member = new Item(itemName[i], itemUser[i], itemDamage[i],
+                itemBonus[i], special[i]);
+        return member;
+    }
+
     public static Item chooseItem(int i) {
-        String[] itemName = { "Dagger", "Broadsword", "Glaive", "Halberd", "Sceptor", "Wand" };
-        String[] itemUser = { "Rogue", "Barbarian", "Soldier", "Dragoon", "Priest", "Wizard" };
-        Integer[] itemDamage = { 8, 10, 15, 18, 6, 4 };
-        Integer[] itemBonus = { 8, 10, 7, 6, 4, 3 };
-        Integer[] special = { 4, 2, 2, 2, 2, 3 };
 
         String[] order = { "first", "second", "third", "fourth", "fifth", "sixth" };
 
@@ -123,20 +130,21 @@ public class App {
 
     public static void special(int i, int j, int[] output, Item[] initiative, Enemy[] gauntlet) {
         if (initiative[i].user == "Wizard") {
-            System.out.println(" magic lowers the " + gauntlet[j].name + "'s defenses!");
+            System.out.println(" magic lowers the " + gauntlet[j].name + "'s defenses! They");
             gauntlet[j].ac -= 5;
         }
         if (initiative[i].user == "Priest") {
-            System.out.println(" bestows a blessing upon " + initiative[i + 1].user + "!");
+            System.out.println(" bestows a blessing upon " + initiative[i + 1].user + "! They");
             initiative[i + 1].bonus += 10;
         }
         if (initiative[i].user == "Soldier") {
             System.out
-                    .println(" communicates a tactical advantage to the party! All future enemies will be surprised!");
+                    .println(
+                            " communicates a tactical advantage to the party! All future enemies will be surprised! They");
             initiative[0].bonus += 10;
         }
         if ((initiative[i].user == "Dragoon") && (gauntlet[j].name == "Dragon")) {
-            System.out.println(" has found his ultimate prize!");
+            System.out.println(" has found his ultimate prize! They");
             initiative[i].special = 8;
         }
         output[1] = (output[1] * initiative[i].special);
@@ -170,7 +178,35 @@ public class App {
 
     }
 
+    public static void info() {
+        Item[] characters = new Item[itemName.length];
+        String[] profile = { "The Rogue does quadruple damage on a crit. Few can match that!",
+                "The Barbarian has the highest bonus to attack roles. Consistent critting!",
+                "The Soldier is a tactical expert who boosts the attacks of the frontline hero. So put your best man up front!",
+                "The Dragoon is on a quest to slay the awful dragon and no one can strike true against this iron-scaled behemoth!",
+                "The Priest blesses the next person in the initiative and enhances their attack rolls.",
+                "The Wizard reduces the defenses of his target and makes crits easier for everyone.", "" };
+        System.out.println("Take your time to familiarize yourself with each hero." +
+                "Type in the number for the hero you'd like to learn about" +
+                "1. The Rogue \n" +
+                "2. The Barbarian \n" +
+                "3. The Soldier \n" +
+                "4. The Dragoon \n" +
+                "5. The Priest \n" +
+                "6. or The Wizard? \n" +
+                "7. I am ready to choose my adventuring party!");
+        int selected = 0;
+        while (selected != 7) {
+            Scanner select = new Scanner(System.in);
+            selected = select.nextInt();
+
+            System.out.println(profile[selected - 1]);
+        }
+
+    }
+
     public static void main(String[] args) {
+        info();
         int difficulty = difficulty();
 
         Item[] initiative = new Item[difficulty];
