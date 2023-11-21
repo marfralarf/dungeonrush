@@ -4,200 +4,218 @@ import java.util.Scanner;
 import java.io.Console;
 
 class Enemy {
-  String name;
-  Integer ac;
-  Integer hp;
+    String name;
+    Integer ac;
+    Integer hp;
 
-  public Enemy(String initName, Integer initAc, Integer initHp) {
-    name = initName;
-    ac = initAc;
-    hp = initHp;
-  }
+    public Enemy(String initName, Integer initAc, Integer initHp) {
+        name = initName;
+        ac = initAc;
+        hp = initHp;
+    }
 }
 
 class Item {
-  String name;
-  String user;
-  Integer damage;
-  Integer bonus;
-  Integer special;
+    String name;
+    String user;
+    Integer damage;
+    Integer bonus;
+    Integer special;
 
-  public Item(String initName, String initType, Integer initDamage, Integer initBonus, Integer initSpecial) {
-    name = initName;
-    user = initType;
-    damage = initDamage;
-    bonus = initBonus;
-    special = initSpecial;
-  }
+    public Item(String initName, String initType, Integer initDamage, Integer initBonus, Integer initSpecial) {
+        name = initName;
+        user = initType;
+        damage = initDamage;
+        bonus = initBonus;
+        special = initSpecial;
+    }
 
-  public int[] attack() {
-    int rollAttack = 0;
-    int rollDamage = 0;
-    int rollOutcome = (int) (Math.random() * 20 + 1);
+    public int[] attack() {
+        int rollAttack = 0;
+        int rollDamage = 0;
+        int rollOutcome = (int) (Math.random() * 20 + 1);
 
-    rollAttack = rollOutcome + bonus;
-    rollDamage = (int) (Math.random() * 6 + 1 + damage);
+        rollAttack = rollOutcome + bonus;
+        rollDamage = (int) (Math.random() * 6 + 1 + damage);
 
-    int[] results = { rollAttack, rollDamage };
+        int[] results = { rollAttack, rollDamage };
 
-    return results;
-  }
+        return results;
+    }
 }
 
-public class Battle {
-  public static Console console = System.console();
+public class App {
+    public static Console console = System.console();
 
-  public static Item chooseItem(int i) {
-    String[] itemName = { "Dagger", "Broadsword", "Glaive", "Halberd", "Sceptor", "Wand" };
-    String[] itemUser = { "Rogue", "Barbarian", "Soldier", "Dragoon", "Priest", "Wizard" };
-    Integer[] itemDamage = { 8, 10, 15, 18, 6, 4 };
-    Integer[] itemBonus = { 8, 10, 7, 6, 4, 3 };
-    Integer[] special = { 4, 2, 2, 2, 2, 3 };
+    public static Item chooseItem(int i) {
+        String[] itemName = { "Dagger", "Broadsword", "Glaive", "Halberd", "Sceptor", "Wand" };
+        String[] itemUser = { "Rogue", "Barbarian", "Soldier", "Dragoon", "Priest", "Wizard" };
+        Integer[] itemDamage = { 8, 10, 15, 18, 6, 4 };
+        Integer[] itemBonus = { 8, 10, 7, 6, 4, 3 };
+        Integer[] special = { 4, 2, 2, 2, 2, 3 };
 
-    String[] order = { "first", "second", "third", "fourth", "fifth", "sixth" };
+        String[] order = { "first", "second", "third", "fourth", "fifth", "sixth" };
 
-    System.out.println("Who will be " + order[i] + " in your party to vanquish the evils" +
-        "that lurk in the dungeon below? \n" +
-        "Enter the number next to your choice \n" +
-        "1. The Rogue \n" +
-        "2. The Barbarian \n" +
-        "3. The Soldier \n" +
-        "4. The Dragoon \n" +
-        "5. The Priest \n" +
-        "6. or The Wizard? \n");
+        System.out.println("Who will be " + order[i] + " in your party to vanquish the evils" +
+                "that lurk in the dungeon below? \n" +
+                "Enter the number next to your choice \n" +
+                "1. The Rogue \n" +
+                "2. The Barbarian \n" +
+                "3. The Soldier \n" +
+                "4. The Dragoon \n" +
+                "5. The Priest \n" +
+                "6. or The Wizard? \n");
 
-    int choiceNum;
+        int choiceNum;
 
-    Scanner choice = new Scanner(System.in);
-    choiceNum = choice.nextInt();
+        Scanner choice = new Scanner(System.in);
+        choiceNum = choice.nextInt();
 
-    Item member = new Item(itemName[choiceNum - 1], itemUser[choiceNum - 1], itemDamage[choiceNum - 1],
-        itemBonus[choiceNum - 1], special[choiceNum - 1]);
-    return member;
-  }
-
-  public static int difficulty() {
-    System.out.println("Choose Your Difficulty. Enter the number next to your choice. \n" +
-        "1. Easy (6 party members) \n2. Medium (5 party members) \n3. Hard (4 party members)");
-
-    int difficulty = 0;
-
-    Scanner choice = new Scanner(System.in);
-    difficulty = 7 - choice.nextInt();
-
-    return difficulty;
-  }
-
-  public static Enemy createEnemy(int i) {
-    String[] enemyName = { "Goblin", "Orc", "Skeleton", "Evil Horse", "Assassin", "Dragon" };
-    Integer[] enemyAc = { 12, 15, 18, 10, 20, 20 };
-    Integer[] enemyHp = { 13, 20, 16, 25, 15, 40 };
-
-    Enemy gauntlet = new Enemy(enemyName[i], enemyAc[i], enemyHp[i]);
-    return gauntlet;
-  }
-
-  public static void damageMessage(int i, int j, int[] output, Enemy[] gauntlet, Item[] initiative) {
-    System.out.println(" hit the " + gauntlet[j].name +
-        " with their " + initiative[i].name +
-        " for " + output[1] +
-        " damage!");
-  }
-
-  public static void special(int i, int j, int[] output, Item[] initiative, Enemy[] gauntlet) {
-    if (initiative[i].user == "Wizard") {
-      System.out.println(" magic lowers the " + gauntlet[j].name + "'s defenses!");
-      gauntlet[j].ac -= 5;
+        Item member = new Item(itemName[choiceNum - 1], itemUser[choiceNum - 1], itemDamage[choiceNum - 1],
+                itemBonus[choiceNum - 1], special[choiceNum - 1]);
+        return member;
     }
-    if (initiative[i].user == "Priest") {
-      System.out.println(" bestows a blessing upon " + initiative[i + 1].user + "!");
-      initiative[i + 1].bonus += 10;
-    }
-    if (initiative[i].user == "Soldier") {
-      System.out
-          .println(" communicates a tactical advantage to the party! All future enemies will be surprised!");
-      initiative[0].bonus += 10;
-    }
-    if ((initiative[i].user == "Dragoon") && (gauntlet[j].name == "Dragon")) {
-      System.out.println(" has found his ultimate prize!");
-      initiative[i].special = 8;
-    }
-    output[1] = (output[1] * initiative[i].special);
-    gauntlet[j].hp = gauntlet[j].hp - output[1];
-  }
 
-  public static void combatRound(Item[] initiative, Enemy[] gauntlet, int j) {
-    for (int i = 0; i < initiative.length; i++) {
-      int[] output = initiative[i].attack();
-      System.out.print(initiative[i].user + " rolled a " + output[0] + " and");
+    public static int difficulty() {
+        System.out.println("Choose Your Difficulty. Enter the number next to your choice. \n" +
+                "1. Easy (6 party members) \n2. Medium (5 party members) \n3. Hard (4 party members)");
 
-      if (output[0] >= (gauntlet[j].ac + 10) || (output[0] == 20)) {
-        System.out.print(" Critical Hit! " + initiative[i].user);
-        special(i, j, output, initiative, gauntlet);
-        damageMessage(i, j, output, gauntlet, initiative);
-      } else if (output[0] >= gauntlet[j].ac) {
+        int difficulty = 0;
+
+        Scanner choice = new Scanner(System.in);
+        int intchoice = choice.nextInt();
+        if (intchoice < 4) {
+            difficulty = 7 - intchoice;
+        } else {
+            difficulty = intchoice;
+        }
+        return difficulty;
+    }
+
+    public static Enemy createEnemy(int i) {
+
+        String[] enemyName = { "Walking Shroom", "Goblin", "Skeleton", "Kobold Pack",
+                "Orc", "Evil Horse", "Mandrake", "Dire Wolf",
+                "Assassin", "Dark Wizard", "Cave Troll", "Dragon" };
+        Integer[] enemyAc = { 8, 12, 18, 8,
+                15, 10, 8, 30,
+                20, 16, 14, 20 };
+        Integer[] enemyHp = { 8, 13, 16, 30,
+                20, 25, 50, 15,
+                15, 10, 50, 40 };
+        Integer[] level = { 0, 0, 0, 0,
+                1, 1, 1, 1,
+                2, 2, 2, 2 };
+
+        int spawn = (int) ((Math.random() * 4));
+        int floor = level[2 * i] * 4;
+        int selectEnemy = spawn + floor;
+        System.out.println(spawn + " " + floor + " " + selectEnemy);
+        Enemy gauntlet = new Enemy(enemyName[selectEnemy], enemyAc[selectEnemy], enemyHp[selectEnemy]);
+        return gauntlet;
+    }
+
+    public static void damageMessage(int i, int j, int[] output, Enemy[] gauntlet, Item[] initiative) {
+        System.out.println(" hit the " + gauntlet[j].name +
+                " with their " + initiative[i].name +
+                " for " + output[1] +
+                " damage!");
+    }
+
+    public static void special(int i, int j, int[] output, Item[] initiative, Enemy[] gauntlet) {
+        if (initiative[i].user == "Wizard") {
+            System.out.println(" magic lowers the " + gauntlet[j].name + "'s defenses!");
+            gauntlet[j].ac -= 5;
+        }
+        if (initiative[i].user == "Priest") {
+            System.out.println(" bestows a blessing upon " + initiative[i + 1].user + "!");
+            initiative[i + 1].bonus += 10;
+        }
+        if (initiative[i].user == "Soldier") {
+            System.out
+                    .println(" communicates a tactical advantage to the party! All future enemies will be surprised!");
+            initiative[0].bonus += 10;
+        }
+        if ((initiative[i].user == "Dragoon") && (gauntlet[j].name == "Dragon")) {
+            System.out.println(" has found his ultimate prize!");
+            initiative[i].special = 8;
+        }
+        output[1] = (output[1] * initiative[i].special);
         gauntlet[j].hp = gauntlet[j].hp - output[1];
-        damageMessage(i, j, output, gauntlet, initiative);
-      } else {
-        System.out.println(" missed!");
-      }
-
-      if (gauntlet[j].hp > 0) {
-        System.out.println(gauntlet[j].name + " has " +
-            gauntlet[j].hp + " health remaining.");
-      } else {
-        System.out.println(gauntlet[j].name + " vanquished! \n");
-        i = initiative.length;
-      }
     }
 
-  }
+    public static void combatRound(Item[] initiative, Enemy[] gauntlet, int j) {
+        for (int i = 0; i < initiative.length; i++) {
+            int[] output = initiative[i].attack();
+            System.out.print(initiative[i].user + " rolled a " + output[0] + " and");
 
-  public static void main(String[] args) {
+            if (output[0] >= (gauntlet[j].ac + 10) || (output[0] == 20)) {
+                System.out.print(" Critical Hit! " + initiative[i].user);
+                special(i, j, output, initiative, gauntlet);
+                damageMessage(i, j, output, gauntlet, initiative);
+            } else if (output[0] >= gauntlet[j].ac) {
+                gauntlet[j].hp = gauntlet[j].hp - output[1];
+                damageMessage(i, j, output, gauntlet, initiative);
+            } else {
+                System.out.println(" missed!");
+            }
 
-    int difficulty = difficulty();
+            if (gauntlet[j].hp > 0) {
+                System.out.println(gauntlet[j].name + " has " +
+                        gauntlet[j].hp + " health remaining.");
+            } else {
+                System.out.println(gauntlet[j].name + " vanquished! \n");
+                i = initiative.length;
+            }
+        }
 
-    Item[] initiative = new Item[difficulty];
-    Enemy[] gauntlet = new Enemy[6];
-
-    for (int i = 0; i < difficulty; i++) {
-      initiative[i] = chooseItem(i);
-      System.out.println("\n Your party includes the:");
-      for (int k = 0; k <= i; k++) {
-        System.out.println((k + 1) + ". " + initiative[k].user);
-      }
-      System.out.println();
     }
-    for (int i = 0; i < gauntlet.length; i++) {
-      gauntlet[i] = createEnemy(i);
-    }
 
-    ArrayList<String> survivors = new ArrayList<>();
+    public static void main(String[] args) {
 
-    for (int j = 0; j < gauntlet.length; j++) {
-      System.out.println(gauntlet[j].name + " has appeared!");
-      combatRound(initiative, gauntlet, j);
+        int difficulty = difficulty();
 
-      if (gauntlet[j].hp > 0) {
-        System.out.println(gauntlet[j].name + " has escaped into the depths of the dungeon! \n");
-        survivors.add(gauntlet[j].name);
-      }
-      console.readLine();
+        Item[] initiative = new Item[difficulty];
+        Enemy[] gauntlet = new Enemy[6];
+
+        for (int i = 0; i < difficulty; i++) {
+            initiative[i] = chooseItem(i);
+            System.out.println("\n Your party includes the:");
+            for (int k = 0; k <= i; k++) {
+                System.out.println((k + 1) + ". " + initiative[k].user);
+            }
+            System.out.println();
+        }
+        for (int i = 0; i < gauntlet.length; i++) {
+            gauntlet[i] = createEnemy(i);
+        }
+
+        ArrayList<String> survivors = new ArrayList<>();
+
+        for (int j = 0; j < gauntlet.length; j++) {
+            System.out.println(gauntlet[j].name + " has appeared!");
+            combatRound(initiative, gauntlet, j);
+
+            if (gauntlet[j].hp > 0) {
+                System.out.println(gauntlet[j].name + " has escaped into the depths of the dungeon! \n");
+                survivors.add(gauntlet[j].name);
+            }
+            console.readLine();
+        }
+        if (survivors.size() == 0) {
+            System.out.println("You have vanquished all of the enemies!");
+        } else if (survivors.size() == 1) {
+            System.out.print("The ");
+            for (int i = 0; i < survivors.size() - 1; i++) {
+                System.out.print(survivors.get(i) + " and the ");
+            }
+            System.out.print(survivors.get(survivors.size() - 1) + " awaits your return...");
+        } else {
+            System.out.print("The ");
+            for (int i = 0; i < survivors.size() - 1; i++) {
+                System.out.print(survivors.get(i) + " and the ");
+            }
+            System.out.print(survivors.get(survivors.size() - 1) + " await your return...");
+        }
     }
-    if (survivors.size() == 0) {
-      System.out.println("You have vanquished all of the enemies!");
-    } else if (survivors.size() == 1) {
-      System.out.print("The ");
-      for (int i = 0; i < survivors.size() - 1; i++) {
-        System.out.print(survivors.get(i) + " and the ");
-      }
-      System.out.print(survivors.get(survivors.size() - 1) + " awaits your return...");
-    } else {
-      System.out.print("The ");
-      for (int i = 0; i < survivors.size() - 1; i++) {
-        System.out.print(survivors.get(i) + " and the ");
-      }
-      System.out.print(survivors.get(survivors.size() - 1) + " await your return...");
-    }
-  }
 }
